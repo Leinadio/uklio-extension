@@ -15,8 +15,7 @@ const profileHeadline = document.getElementById("profile-headline");
 const profilePosition = document.getElementById("profile-position");
 const completenessValue = document.getElementById("completeness-value");
 const completenessFill = document.getElementById("completeness-fill");
-const listSelect = document.getElementById("list-select");
-const objectiveSelect = document.getElementById("objective-select");
+const campaignSelect = document.getElementById("campaign-select");
 const btnAdd = document.getElementById("btn-add");
 const btnRetry = document.getElementById("btn-retry");
 const errorMessage = document.getElementById("error-message");
@@ -44,10 +43,10 @@ async function init() {
 
   showState("LOADING");
 
-  // 2. Fetch lists (also tests auth)
-  let lists;
+  // 2. Fetch campaigns (also tests auth)
+  let campaigns;
   try {
-    lists = await fetchLists();
+    campaigns = await fetchCampaigns();
   } catch (err) {
     if (err.message.includes("autoris") || err.message.includes("401")) {
       showState("NOT_AUTH");
@@ -86,7 +85,7 @@ async function init() {
 
   // 4. Populate UI
   populateProfile(scrapedData);
-  populateLists(lists);
+  populateCampaigns(campaigns);
   showState("MAIN");
 }
 
@@ -124,24 +123,24 @@ function populateProfile(data) {
   completenessFill.style.width = `${pct}%`;
 }
 
-function populateLists(lists) {
-  listSelect.innerHTML = '<option value="">Choisir une liste...</option>';
-  for (const list of lists) {
+function populateCampaigns(campaigns) {
+  campaignSelect.innerHTML = '<option value="">Choisir une campagne...</option>';
+  for (const campaign of campaigns) {
     const opt = document.createElement("option");
-    opt.value = list.id;
-    opt.textContent = `${list.name} (${list._count.prospects})`;
-    listSelect.appendChild(opt);
+    opt.value = campaign.id;
+    opt.textContent = `${campaign.name} (${campaign._count.prospects})`;
+    campaignSelect.appendChild(opt);
   }
 }
 
 // --- Event handlers ---
 
-listSelect.addEventListener("change", () => {
-  btnAdd.disabled = !listSelect.value;
+campaignSelect.addEventListener("change", () => {
+  btnAdd.disabled = !campaignSelect.value;
 });
 
 btnAdd.addEventListener("click", async () => {
-  if (!scrapedData || !listSelect.value) return;
+  if (!scrapedData || !campaignSelect.value) return;
 
   btnAdd.disabled = true;
   btnAdd.textContent = "Envoi...";
@@ -149,8 +148,7 @@ btnAdd.addEventListener("click", async () => {
   try {
     await sendProspect({
       ...scrapedData,
-      listId: listSelect.value,
-      objective: objectiveSelect.value || undefined,
+      campaignId: campaignSelect.value,
     });
     showState("SUCCESS");
   } catch (err) {

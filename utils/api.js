@@ -1,5 +1,5 @@
-async function fetchLists() {
-  const res = await fetch(`${API_BASE_URL}/api/lists`, {
+async function fetchCampaigns() {
+  const res = await fetch(`${API_BASE_URL}/api/campaigns`, {
     credentials: "include",
   });
   if (!res.ok) {
