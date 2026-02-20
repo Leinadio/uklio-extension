@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Uklio</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="logo">Uklio</div>
+    </header>
+
+    <!-- NOT_LINKEDIN -->
+    <div id="state-not-linkedin" class="state hidden">
+      <div class="state-icon">🔗</div>
+      <p class="state-message">Naviguez vers un profil LinkedIn pour commencer.</p>
+      <p class="state-hint">Ouvrez <strong>linkedin.com/in/...</strong></p>
+    </div>
+
+    <!-- NOT_AUTH -->
+    <div id="state-not-auth" class="state hidden">
+      <div class="state-icon">🔒</div>
+      <p class="state-message">Connectez-vous a Uklio</p>
+      <a href="http://localhost:3000/login" target="_blank" class="btn btn-primary">Se connecter</a>
+    </div>
+
+    <!-- LOADING -->
+    <div id="state-loading" class="state hidden">
+      <div class="spinner"></div>
+      <p class="state-message">Analyse du profil...</p>
+    </div>
+
+    <!-- MAIN -->
+    <div id="state-main" class="state hidden">
+      <div class="profile-card">
+        <img id="profile-photo" src="" alt="" class="profile-photo">
+        <div class="profile-info">
+          <div id="profile-name" class="profile-name"></div>
+          <div id="profile-headline" class="profile-headline"></div>
+          <div id="profile-position" class="profile-position"></div>
+        </div>
+      </div>
+
+      <div class="completeness-bar">
+        <div class="completeness-label">
+          <span>Completude du profil</span>
+          <span id="completeness-value">0%</span>
+        </div>
+        <div class="completeness-track">
+          <div id="completeness-fill" class="completeness-fill" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="list-select">Liste</label>
+        <select id="list-select" class="select">
+          <option value="">Choisir une liste...</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="objective-select">Objectif</label>
+        <select id="objective-select" class="select">
+          <option value="">Aucun objectif</option>
+          <option value="CALL">Appel</option>
+          <option value="MEETING">Rendez-vous</option>
+          <option value="SELL">Vente</option>
+          <option value="TESTIMONIAL">Temoignage</option>
+        </select>
+      </div>
+
+      <button id="btn-add" class="btn btn-primary btn-full" disabled>Ajouter a la liste</button>
+    </div>
+
+    <!-- SUCCESS -->
+    <div id="state-success" class="state hidden">
+      <div class="state-icon">✓</div>
+      <p class="state-message">Prospect ajoute avec succes !</p>
+      <a href="http://localhost:3000/dashboard" target="_blank" class="btn btn-secondary">Voir dans Uklio</a>
+    </div>
+
+    <!-- ERROR -->
+    <div id="state-error" class="state hidden">
+      <div class="state-icon">✕</div>
+      <p id="error-message" class="state-message error-text"></p>
+      <button id="btn-retry" class="btn btn-primary">Reessayer</button>
+    </div>
+  </div>
+
+  <script src="../utils/config.js"></script>
+  <script src="../utils/api.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
